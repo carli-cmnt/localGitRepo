@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minipark.parkserver.core.system.dao.DdBaseDataItemMapper">
+  <resultMap id="BaseResultMap" type="com.minipark.parkserver.core.system.entity.BaseDataItem">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="TYPEID" jdbcType="VARCHAR" property="typeId" />
+    <result column="TYPECODE" jdbcType="VARCHAR" property="typeCode" />
+    <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    <result column="SEQNO" jdbcType="INTEGER" property="seqNo" />
+    <result column="IS_VALID" jdbcType="VARCHAR" property="isValid" />
+    <result column="IS_DEL" jdbcType="VARCHAR" property="isDel" />
+    <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="LAST_UPDATE_USER_ID" jdbcType="VARCHAR" property="lastUpdateUserId" />
+    <result column="LAST_UPDATE_USER_NAME" jdbcType="VARCHAR" property="lastUpdateUserName" />
+    <result column="LAST_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, code, name,TYPEID,TYPECODE,DESCRIPTION,SEQNO, IS_VALID, IS_DEL, CREATE_USER_ID, 
+    CREATE_USER_NAME, CREATE_DATE, LAST_UPDATE_USER_ID, LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+  </sql>
+  
+  
+  
+  
+  
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DD_BASEDATA_ITEM
+    where ID = #{id}
+  </select>
+  
+  <select id="getBaseDataItemByTypeCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DD_BASEDATA_ITEM
+    where is_del = '0'
+	and is_valid = '1'
+	and typeCode = #{typeCode}
+	order by seqNo
+  </select>
+  
+  <select id="getBaseDataItemByTypeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from DD_BASEDATA_ITEM
+    where is_del = '0'
+	and is_valid = '1'
+	and typeId = #{typeId}
+	order by seqNo
+  </select>
+  
+  <select id="getBelongDepartment">
+  SELECT
+	<include refid="Base_Column_List" />
+ 	from DD_BASEDATA_ITEM
+    where is_del = '1'
+	and is_valid = '1'
+    and id='15838d39-5440-11e4-91cc-00e0ed3551d0'
+	order by seqNo
+  </select>
+  
+  
+  <select id="ifItemExists" parameterType="map" resultMap="BaseResultMap">
+	SELECT * FROM DD_BASEDATA_ITEM
+		WHERE code =#{code,jdbcType=VARCHAR}
+		AND typeCode = #{typeCode,jdbcType=VARCHAR}
+		AND IS_DEL = '0'
+		<if test = "id != null and id != ''">
+			AND ID!=#{id,jdbcType=VARCHAR}
+		</if>
+  </select>
+  
+  <update id="delete" parameterType="java.util.ArrayList" >
+    update DD_BASEDATA_ITEM set is_del = '1'
+    where ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+    	#{item}  
+    </foreach>
+  </update>
+  
+  <insert id="insert" parameterType="com.minipark.parkserver.core.system.entity.BaseDataItem">
+    insert into DD_BASEDATA_ITEM (ID, code, name,TYPEID,TYPECODE,DESCRIPTION,SEQNO,
+      IS_VALID, IS_DEL, CREATE_USER_ID, CREATE_USER_NAME, CREATE_DATE, 
+      LAST_UPDATE_USER_ID, LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+      )
+    values (uuid(), #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{typeId,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+      #{seqNo,jdbcType=INTEGER}, #{isValid,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdateUserId,jdbcType=VARCHAR}, #{lastUpdateUserName,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <update id="updateCodeByTypeId" parameterType="map">
+    update DD_BASEDATA_ITEM
+    set TYPECODE = #{code,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where TYPEID = #{typeId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="update" parameterType="com.minipark.parkserver.core.system.entity.BaseDataItem">
+    update DD_BASEDATA_ITEM
+    set code = #{code,jdbcType=VARCHAR},name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},seqNo = #{seqNo,jdbcType=INTEGER},
+      is_valid = #{isValid,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

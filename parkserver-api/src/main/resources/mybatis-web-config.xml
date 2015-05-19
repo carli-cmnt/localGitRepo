@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<properties>
+		<property name="dialect" value="mysql" />
+	</properties>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+    <typeAliases>
+        <typeAlias alias="loginUser" type="com.minipark.parkserver.core.user.entity.LoginUser" />
+        <typeAlias alias="auMenu" type="com.minipark.parkserver.core.system.entity.AuMenu" />
+        <typeAlias alias="auRole" type="com.minipark.parkserver.core.system.entity.AuRole" />
+        <typeAlias alias="baseDataType" type="com.minipark.parkserver.core.system.entity.BaseDataType" />
+        <typeAlias alias="baseDataItem" type="com.minipark.parkserver.core.system.entity.BaseDataItem" />
+    </typeAliases>
+    <plugins>
+        <plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+            <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect" />
+        </plugin>
+    </plugins>
+    <!-- 
+    <mappers>
+        <mapper resource="com/minipark/parkserver/core/user/dao/mapper/LoginUserMapper.xml" />
+        <mapper resource="com/minipark/parkserver/core/system/dao/mapper/AuMenuMapper.xml" />
+        <mapper resource="com/minipark/parkserver/core/system/dao/mapper/AuRoleMapper.xml" />
+        <mapper resource="com/minipark/parkserver/core/system/dao/mapper/DdBaseDataItemMapper.xml" />
+        <mapper resource="com/minipark/parkserver/core/system/dao/mapper/DdBaseDataTypeMapper.xml" />
+    </mappers>
+     -->
+</configuration>

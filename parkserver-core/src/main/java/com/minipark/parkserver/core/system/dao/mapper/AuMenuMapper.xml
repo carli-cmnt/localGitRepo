@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minipark.parkserver.core.system.dao.AuMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.minipark.parkserver.core.system.entity.AuMenu" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_code" property="menuCode" jdbcType="VARCHAR" />
+    <result column="menu_level" property="menuLevel" jdbcType="VARCHAR" />
+    <result column="has_child" property="hasChild" jdbcType="VARCHAR" />
+    <result column="icon_code" property="iconCode" jdbcType="VARCHAR" />
+    <result column="menu_path" property="menuPath" jdbcType="VARCHAR" />
+    <result column="super_id" property="superId" jdbcType="VARCHAR" />
+    <result column="menu_order" property="menuOrder" jdbcType="DECIMAL" />
+    <result column="IS_VALID" property="isValid" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="LAST_UPDATE_USER_ID" property="lastUpdateUserId" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_USER_NAME" property="lastUpdateUserName" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, menu_name, menu_code, menu_level, has_child, icon_code, menu_path, super_id, 
+    menu_order, IS_VALID, IS_DEL, CREATE_USER_ID, CREATE_USER_NAME, CREATE_DATE, LAST_UPDATE_USER_ID, 
+    LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from au_menu
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from au_menu
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.minipark.parkserver.core.system.entity.AuMenu" >
+    insert into au_menu (ID, menu_name, menu_code, 
+      menu_level, has_child, icon_code, 
+      menu_path, super_id, menu_order, 
+      IS_VALID, IS_DEL, CREATE_USER_ID, 
+      CREATE_USER_NAME, CREATE_DATE, LAST_UPDATE_USER_ID, 
+      LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE)
+    values (#{id,jdbcType=VARCHAR}, #{menuName,jdbcType=VARCHAR}, #{menuCode,jdbcType=VARCHAR}, 
+      #{menuLevel,jdbcType=VARCHAR}, #{hasChild,jdbcType=VARCHAR}, #{iconCode,jdbcType=VARCHAR}, 
+      #{menuPath,jdbcType=VARCHAR}, #{superId,jdbcType=VARCHAR}, #{menuOrder,jdbcType=DECIMAL}, 
+      #{isValid,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{lastUpdateUserId,jdbcType=VARCHAR}, 
+      #{lastUpdateUserName,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.minipark.parkserver.core.system.entity.AuMenu" >
+    insert into au_menu
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="menuName != null" >
+        menu_name,
+      </if>
+      <if test="menuCode != null" >
+        menu_code,
+      </if>
+      <if test="menuLevel != null" >
+        menu_level,
+      </if>
+      <if test="hasChild != null" >
+        has_child,
+      </if>
+      <if test="iconCode != null" >
+        icon_code,
+      </if>
+      <if test="menuPath != null" >
+        menu_path,
+      </if>
+      <if test="superId != null" >
+        super_id,
+      </if>
+      <if test="menuOrder != null" >
+        menu_order,
+      </if>
+      <if test="isValid != null" >
+        IS_VALID,
+      </if>
+      <if test="isDel != null" >
+        IS_DEL,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="lastUpdateUserId != null" >
+        LAST_UPDATE_USER_ID,
+      </if>
+      <if test="lastUpdateUserName != null" >
+        LAST_UPDATE_USER_NAME,
+      </if>
+      <if test="lastUpdateDate != null" >
+        LAST_UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="menuName != null" >
+        #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        #{menuLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hasChild != null" >
+        #{hasChild,jdbcType=VARCHAR},
+      </if>
+      <if test="iconCode != null" >
+        #{iconCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPath != null" >
+        #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="superId != null" >
+        #{superId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuOrder != null" >
+        #{menuOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null" >
+        #{lastUpdateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateUserName != null" >
+        #{lastUpdateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null" >
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.minipark.parkserver.core.system.entity.AuMenu" >
+    update au_menu
+    <set >
+      <if test="menuName != null" >
+        menu_name = #{menuName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuCode != null" >
+        menu_code = #{menuCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuLevel != null" >
+        menu_level = #{menuLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="hasChild != null" >
+        has_child = #{hasChild,jdbcType=VARCHAR},
+      </if>
+      <if test="iconCode != null" >
+        icon_code = #{iconCode,jdbcType=VARCHAR},
+      </if>
+      <if test="menuPath != null" >
+        menu_path = #{menuPath,jdbcType=VARCHAR},
+      </if>
+      <if test="superId != null" >
+        super_id = #{superId,jdbcType=VARCHAR},
+      </if>
+      <if test="menuOrder != null" >
+        menu_order = #{menuOrder,jdbcType=DECIMAL},
+      </if>
+      <if test="isValid != null" >
+        IS_VALID = #{isValid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        IS_DEL = #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateUserId != null" >
+        LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateUserName != null" >
+        LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null" >
+        LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.minipark.parkserver.core.system.entity.AuMenu" >
+    update au_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_code = #{menuCode,jdbcType=VARCHAR},
+      menu_level = #{menuLevel,jdbcType=VARCHAR},
+      has_child = #{hasChild,jdbcType=VARCHAR},
+      icon_code = #{iconCode,jdbcType=VARCHAR},
+      menu_path = #{menuPath,jdbcType=VARCHAR},
+      super_id = #{superId,jdbcType=VARCHAR},
+      menu_order = #{menuOrder,jdbcType=DECIMAL},
+      IS_VALID = #{isValid,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=VARCHAR},
+      CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllMenus" resultMap="BaseResultMap" parameterType="map">
+    <![CDATA[  
+        select * 
+        from au_menu 
+        where is_del = #{isdel}
+        order by has_child desc, menu_level, menu_order
+    ]]>
+  </select>
+  
+  <select id="getAllMenusByRoleId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select menu.* 
+    from au_role_menu_rel rel inner join au_menu menu on rel.MENU_ID = menu.ID
+    where rel.role_id = #{roleId,jdbcType=VARCHAR}
+        order by has_child desc, menu_level, menu_order
+  </select>
+  <select id="getChildrenById" parameterType="map" resultMap="BaseResultMap">
+        SELECT * FROM au_menu 
+        <if test = "id!=null and id !=''">
+        WHERE SUPER_ID =#{id,jdbcType=VARCHAR}
+        </if>
+        <if test = "id==null or id ==''">
+        WHERE SUPER_ID is null or SUPER_ID = ''
+        </if>
+        AND IS_DEL='0' 
+    </select>
+  
+  <select id="getMenuById" resultMap="BaseResultMap" parameterType="map">
+    <![CDATA[  
+        select * 
+        from au_menu 
+        where id = #{id}
+        order by has_child desc, menu_level, menu_order
+    ]]>
+  </select>
+  
+  <select id="ifExistsMenuCode" parameterType="map" resultType="com.minipark.parkserver.core.system.entity.AuMenu">
+    <![CDATA[
+    SELECT * FROM AU_MENU T
+        WHERE T.IS_DEL = '0' 
+        AND t.MENU_CODE = #{menuCode,jdbcType=VARCHAR}
+        AND T.ID != #{id,jdbcType=VARCHAR}
+    ]]>
+  </select>
+  
+  <select id="getChildCount" resultType="int" parameterType="map">
+    <![CDATA[  
+        select count(id) 
+        from au_menu 
+        where is_del = #{isDel} and 
+        super_id = (select super_id from au_menu where id = #{id}) 
+    ]]>
+  </select>
+  
+  <update id="delete" parameterType="java.util.ArrayList" >
+    update au_menu set is_del = '1'
+    where ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item}  
+    </foreach>
+  </update>
+  
+  <update id="deleteRoleMenuRel" parameterType="java.util.ArrayList" >
+    update au_role_menu_rel set is_del = '1'
+    where MENU_ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item}  
+    </foreach>
+  </update>
+  <update id="update" parameterType="com.minipark.parkserver.core.system.entity.AuMenu">
+    update au_menu
+    set menu_name = #{menuName,jdbcType=VARCHAR},
+      menu_code = #{menuCode,jdbcType=VARCHAR},
+      icon_code = #{iconCode,jdbcType=VARCHAR},
+      menu_path = #{menuPath,jdbcType=VARCHAR},
+      menu_order = #{menuOrder,jdbcType=DECIMAL},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateHasChild" parameterType="java.util.Map">
+    update au_menu
+    set has_child = #{hasChild,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

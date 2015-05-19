@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.minipark.parkserver.core.system.dao.AuRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.minipark.parkserver.core.system.entity.AuRole" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_CODE" property="roleCode" jdbcType="VARCHAR" />
+    <result column="IS_VALID" property="isValid" jdbcType="VARCHAR" />
+    <result column="IS_DEL" property="isDel" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="CREATE_USER_NAME" property="createUserName" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="LAST_UPDATE_USER_ID" property="lastUpdateUserId" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_USER_NAME" property="lastUpdateUserName" jdbcType="VARCHAR" />
+    <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="MenuRoleRelMap" type="map">
+    <result column="menu_path" jdbcType="VARCHAR" property="menuPath" />
+    <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ROLE_NAME, ROLE_CODE, IS_VALID, IS_DEL, CREATE_USER_ID, CREATE_USER_NAME, CREATE_DATE, 
+    LAST_UPDATE_USER_ID, LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+  </sql>
+  <!-- *************查询普通角色**************** -->
+    <select id="getRoleByRoleName" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_role where role_code='ROLE_NORMAL_REGISTERED_USER'
+  </select>
+  <!-- *************查询普通角色**************** -->
+  <select id="getAllMenuRoleRel" parameterType="map" resultMap="MenuRoleRelMap">
+    SELECT
+    menu.menu_path,
+    role.role_code
+    FROM
+        au_role_menu_rel rel
+    LEFT JOIN au_menu menu ON menu.id = rel.MENU_ID
+    LEFT JOIN au_role role ON role.id = rel.ROLE_ID
+    where rel.IS_DEL = '0'
+    and role.IS_DEL = '0'
+    and role.IS_VALID = '1'
+    and menu.menu_path != ''
+    order by menu.menu_path
+  </select>
+
+  <select id="getAllRolesByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select ar.*
+    from au_role ar, au_user_role_rel ur
+    where ar.ID = ur.role_id and ur.user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAllMenusByRoleId" parameterType="java.lang.String" resultType="com.minipark.parkserver.core.system.entity.AuRole">
+    select menu.* 
+    from au_role_menu_rel rel left join au_menu menu on rel.MENU_ID = menu.ID
+    where rel.role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 获取角色下所有的菜单和操作信息 -->
+  <select id="getAllActionsRoleRel" parameterType="java.lang.String" resultType="map">
+    select rel.menu_id, rel.actions
+    from au_role_menu_rel rel
+    where rel.role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  
+ <select id="getActionsRoleRel" parameterType="map" resultType="map">
+    select rel.menu_id, rel.actions
+    from au_role_menu_rel rel,au_role role,au_menu menu
+    where role.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+    and menu.menu_code = #{menuName,jdbcType=VARCHAR}
+    and rel.ROLE_ID = role.ID
+    and rel.MENU_ID = menu.ID
+    
+  </select>
+  
+  <select id="get" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_role
+    where ID = #{id}
+  </select>
+  
+  <select id="getRoleList" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_role
+    where is_del = '0'
+    <if test="roleName != null and roleName != ''">
+       AND (
+            role_Name LIKE CONCAT('%',#{roleName,jdbcType=VARCHAR},'%') 
+            or role_Name LIKE CONCAT('%',#{roleName,jdbcType=VARCHAR},'%')
+            )
+    </if>
+    <if test="isValid != null and isValid != ''">
+       AND is_Valid = #{isValid,jdbcType=VARCHAR}
+    </if>
+    ORDER BY 
+            IS_VALID DESC
+  </select>
+  
+  <select id="ifExists" parameterType="map" resultType="com.minipark.parkserver.core.system.entity.AuRole">
+    <![CDATA[
+    SELECT * FROM AU_ROLE T
+        WHERE T.IS_DEL = '0' 
+        AND t.ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+        AND T.ID != #{id,jdbcType=VARCHAR}
+    ]]>
+  </select>
+  
+  <select id="ifExistsRoleCode" parameterType="map" resultType="com.minipark.parkserver.core.system.entity.AuRole">
+    <![CDATA[
+    SELECT * FROM AU_ROLE T
+        WHERE T.IS_DEL = '0' 
+        AND t.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+        AND T.ID != #{id,jdbcType=VARCHAR}
+    ]]>
+  </select>
+  
+  <update id="delete" parameterType="java.util.ArrayList" >
+    update au_role set is_del = '1'
+    where ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+        #{item}  
+    </foreach>
+  </update>
+  
+  <insert id="insertRoleMenuRel" parameterType="map" >
+    insert into au_role_menu_rel (ID, ROLE_ID, MENU_ID, ACTIONS, IS_VALID, 
+      IS_DEL, CREATE_USER_ID, CREATE_USER_NAME, 
+      CREATE_DATE)
+    values (uuid(), #{roleId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, #{actions,jdbcType=VARCHAR}, #{isValid,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <delete id="deleteRoleMenuRelByRoleId" parameterType="java.lang.String">
+    delete from au_role_menu_rel where role_id = #{roleId}
+  </delete>
+  
+  <insert id="insert" parameterType="com.minipark.parkserver.core.system.entity.AuRole">
+    insert into au_role (ID, ROLE_NAME, ROLE_CODE,IS_VALID, 
+      IS_DEL, CREATE_USER_ID, CREATE_USER_NAME, 
+      CREATE_DATE)
+    values (uuid(), #{roleName,jdbcType=VARCHAR},  #{roleCode,jdbcType=VARCHAR}, #{isValid,jdbcType=VARCHAR}, 
+      #{isDel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <update id="update" parameterType="com.minipark.parkserver.core.system.entity.AuRole">
+    update au_role
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_CODE = #{roleCode,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateIsValid" parameterType="map">
+    update au_role
+    set IS_VALID = #{isValid,jdbcType=VARCHAR},
+        LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+        LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+        LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

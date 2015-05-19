@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context  
+            http://www.springframework.org/schema/context/spring-context.xsd  
+            http://www.springframework.org/schema/jdbc  
+            http://www.springframework.org/schema/jdbc/spring-jdbc.xsd 
+            http://www.springframework.org/schema/task 
+            http://www.springframework.org/schema/task/spring-task.xsd
+			http://www.springframework.org/schema/cache
+			http://www.springframework.org/schema/cache/spring-cache.xsd
+			http://www.springframework.org/schema/aop 
+			http://www.springframework.org/schema/aop/spring-aop.xsd 
+			http://www.springframework.org/schema/util
+			http://www.springframework.org/schema/util/spring-util-3.1.xsd ">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:data-source.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<util:properties id="prop" location="classpath:app.properties" />
+
+	<!-- 自动搜索@标注的类 -->
+	<context:component-scan base-package="com.minipark.parkserver.admin.*.service" />
+	<!-- 数据源1配置 -->
+	<bean id="dataSource1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>${ds1_mysql.url}</value>
+		</property>
+		<property name="username">
+			<value>${ds1_mysql.username}</value>
+		</property>
+		<property name="password">
+			<value>${ds1_mysql.password}</value>
+		</property>
+		<property name="maxActive">
+			<value>20</value>
+		</property>
+		<property name="initialSize">
+			<value>1</value>
+		</property>
+		<property name="maxWait">
+			<value>60000</value>
+		</property>
+		<property name="maxIdle">
+			<value>20</value>
+		</property>
+		<property name="minIdle">
+			<value>3</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>true</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 FROM DUAL</value>
+		</property>
+	</bean>
+
+    <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource1" />
+        <property name="configLocation" value="classpath:/mybatis-web-config.xml" />
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:com/minipark/parkserver/core/*/dao/mapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+	<!-- <bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource1" />
+		<property name="configLocation" value="classpath:/mybatis-web-config.xml" />
+	</bean>   -->
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.minipark.parkserver.core.*.dao" />
+    </bean>
+	<!--事务处理 -->
+	<bean id="transactionManager1" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource1" />
+		<qualifier value="parkTransactionCore" />
+	</bean>
+	<!-- 拦截器 -->
+	<bean id="transactionInterceptor1" abstract="true" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager" ref="transactionManager1"></property>
+		<property name="transactionAttributes">
+			<props>
+				<prop key="select*">PROPAGATION_REQUIRED, readOnly</prop>
+				<prop key="get*">PROPAGATION_REQUIRED, readOnly</prop>
+				<prop key="insert*">PROPAGATION_REQUIRED</prop>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+	<cache:annotation-driven />
+
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache" />
+
+	<bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:/ehcache.xml" />
+
+</beans>

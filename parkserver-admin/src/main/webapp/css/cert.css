@@ -1,0 +1,25 @@
+@charset "utf-8";
+#cert-printset {font-family:"微软雅黑", Arial, Helvetica, sans-serif;font-size:12px; text-align:center;}
+#cert-container {font-family:"微软雅黑", Arial, Helvetica, sans-serif;font-size:24px; text-align:center;}
+#cert-container { margin:18px auto;width:931px; position:relative;height:628px }
+.bgimg{ position:absolute; top:0px; left:0px;width:931px; height:628px}
+#xm h3{font-family:"微软雅黑", Arial, Helvetica, sans-serif;position:absolute;left:220px;top:92px;width: 90px;height:32px; font-size:24px}
+#xb h3{font-family:"微软雅黑", Arial, Helvetica, sans-serif;position:absolute;left:400px;top:92px;width: 90px;height:32px; font-size:24px}
+#nl h3{font-family:"微软雅黑", Arial, Helvetica, sans-serif;position:absolute;left:570px;top:92px;width: 90px;height:32px; font-size:24px}
+
+#sj p .span1{ position:absolute; left:750px; top:110px; }
+#sj p .span2{ position:absolute; left:80px; top:160px;}
+#sj p .span3{ position:absolute; left:200px; top:160px;}
+#sj p .span4{ position:absolute; left:350px; top:160px;}
+#sj p .span5{ position:absolute; left:490px; top:160px;}
+#sj p .span6{ position:absolute; left:620px; top:160px;}
+
+#bh .cj1{position:absolute;font-family:"微软雅黑", Arial, Helvetica, sans-serif;font-size:22px;left:510px; top:205px;}
+
+#hd .cj2 {position:absolute;font-family:"微软雅黑", Arial, Helvetica, sans-serif;font-size:24px;left:50px; top:255px;}
+
+#xf span{ position:absolute;left:800px;top:260px;font-size:24px}
+
+.year{ position:absolute; left:600px;top:460px;font-size:20px;font-family:"微软雅黑"; font-weight:lighter}
+.month{ position:absolute; left:680px;top:460px;font-size:20px;font-family:"微软雅黑"; font-weight:lighter}
+.day{ position:absolute; left:735px;top:460px;font-size:20px;font-family:"微软雅黑"; font-weight:lighter}

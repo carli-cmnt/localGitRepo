@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minipark.parkserver.core.system.dao.AuCityMapper">
+  <resultMap id="BaseResultMap" type="com.minipark.parkserver.core.system.entity.AuCity">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CITY_CODE" jdbcType="VARCHAR" property="cityCode" />
+    <result column="CITY_NAME" jdbcType="VARCHAR" property="cityName" />
+    <result column="CITY_PINYIN" jdbcType="VARCHAR" property="cityPinyin" />
+    <result column="CITY_TYPE" jdbcType="VARCHAR" property="cityType" />
+    <result column="SUPER_CITY_ID" jdbcType="VARCHAR" property="superCityId" />
+    <result column="HAS_CHILD" jdbcType="VARCHAR" property="hasChild" />
+    <result column="IS_VALID" jdbcType="VARCHAR" property="isValid" />
+    <result column="IS_DEL" jdbcType="VARCHAR" property="isDel" />
+    <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="LAST_UPDATE_USER_ID" jdbcType="VARCHAR" property="lastUpdateUserId" />
+    <result column="LAST_UPDATE_USER_NAME" jdbcType="VARCHAR" property="lastUpdateUserName" />
+    <result column="LAST_UPDATE_DATE" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CITY_CODE, CITY_NAME, CITY_TYPE, SUPER_CITY_ID, HAS_CHILD, IS_VALID, IS_DEL, CREATE_USER_ID, 
+    CREATE_USER_NAME, CREATE_DATE, LAST_UPDATE_USER_ID, LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+  </sql>
+  
+   <select id="getById" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_city
+    where ID = #{cityId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="getByCode" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_city
+    where city_code = #{code,jdbcType=VARCHAR}
+  </select>
+   <select id="getByName" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from au_city
+    where CITY_TYPE != 1 and CITY_NAME = #{cityName,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="getChildrenById" parameterType="map" resultMap="BaseResultMap">
+		SELECT * FROM AU_CITY WHERE IS_DEL='0'
+		<if test = "id!=null and id !=''">
+		AND SUPER_CITY_ID =#{id,jdbcType=VARCHAR}
+		</if>
+		<if test = "id==null or id ==''">
+		AND (SUPER_CITY_ID is null or SUPER_CITY_ID='')
+		</if>
+		ORDER BY CITY_CODE
+	</select>
+	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from au_city
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="getAllCityList" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+		 FROM AU_CITY 
+		 WHERE IS_DEL='0'
+		 ORDER BY HAS_CHILD DESC,CITY_TYPE,CITY_CODE
+	</select>
+	
+	<select id="ifExists" parameterType="map" resultType="com.minipark.parkserver.core.system.entity.AuCity">
+	SELECT * FROM AU_CITY t
+		WHERE t.CITY_CODE = #{cityCode,jdbcType=VARCHAR}
+		AND t.IS_DEL=#{isDel}
+		<if test = "id!=null and id!=''">
+			AND t.ID!=#{id,jdbcType=VARCHAR}
+		</if>
+		
+  </select>
+  
+  <update id="delete" parameterType="java.util.ArrayList" >
+    update au_city set is_del = '1'
+    where ID in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+    	#{item}  
+    </foreach>
+  </update>
+  
+  <insert id="insert" parameterType="com.minipark.parkserver.core.system.entity.AuCity">
+	<!--    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">   
+        select uuid() as id
+    </selectKey> -->
+    
+    insert into au_city (ID, CITY_NAME, CITY_CODE, HAS_CHILD,CITY_TYPE,
+      SUPER_CITY_ID, IS_VALID, IS_DEL, 
+      CREATE_USER_ID, CREATE_USER_NAME, CREATE_DATE, 
+      LAST_UPDATE_USER_ID, LAST_UPDATE_USER_NAME, LAST_UPDATE_DATE
+      )
+    values (#{cityCode,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR},  #{hasChild,jdbcType=VARCHAR},  #{cityType,jdbcType=VARCHAR}, 
+      #{superCityId,jdbcType=VARCHAR}, #{isValid,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdateUserId,jdbcType=VARCHAR}, #{lastUpdateUserName,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <update id="update" parameterType="com.minipark.parkserver.core.system.entity.AuCity">
+    update au_city
+    set CITY_CODE = #{cityCode,jdbcType=VARCHAR},
+      CITY_NAME = #{cityName,jdbcType=VARCHAR},
+      CITY_PINYIN = #{cityPinyin,jdbcType=VARCHAR},
+      SUPER_CITY_ID = #{superCityId,jdbcType=VARCHAR},
+      CITY_TYPE = #{cityType,jdbcType=VARCHAR},
+      HAS_CHILD = #{hasChild,jdbcType=VARCHAR},
+      IS_VALID = #{isValid,jdbcType=VARCHAR},
+      IS_DEL = #{isDel,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_ID = #{lastUpdateUserId,jdbcType=VARCHAR},
+      LAST_UPDATE_USER_NAME = #{lastUpdateUserName,jdbcType=VARCHAR},
+      LAST_UPDATE_DATE = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateHasChild" parameterType="map">
+    update au_city
+    set HAS_CHILD = #{hasChild,jdbcType=VARCHAR} 
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getAllCity" parameterType="map" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List" />
+		 FROM AU_City 
+		 WHERE IS_DEL='0'
+		 ORDER BY CITY_TYPE,CITY_CODE
+	</select>
+	
+</mapper>

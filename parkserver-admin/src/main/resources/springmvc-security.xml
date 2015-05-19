@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+            http://www.springframework.org/schema/context  
+            http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+            http://www.springframework.org/schema/jdbc  
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd 
+            http://www.springframework.org/schema/task 
+            http://www.springframework.org/schema/task/spring-task-3.2.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+            http://www.springframework.org/schema/cache
+            http://www.springframework.org/schema/cache/spring-cache-3.2.xsd
+            http://www.springframework.org/schema/security
+            http://www.springframework.org/schema/security/spring-security.xsd">
+    <!--  Spring-Security 的配置 -->
+    <!-- 注意开启use-expressions.表示开启表达式.  
+    see:http://www.family168.com/tutorial/springsecurity3/html/el-access.html  
+     -->
+	<security:http pattern="/js/**" security="none" />
+    <security:http pattern="/common/*.jsp" security="none" />
+	<security:http pattern="/assets/**" security="none" />
+    <security:http pattern="/plugins/**" security="none" />
+    <security:http pattern="/ckeditor/**" security="none" />
+	<security:http pattern="/login**" security="none" />
+    <security:http pattern="/timeout" security="none" />
+    <security:http pattern="/logout" security="none" />
+    <security:http pattern="/register" security="none" />
+    <security:http pattern="/web_login" security="none" />
+    
+	<security:http auto-config="true" use-expressions="true" access-denied-page="/denied">
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error=true"
+			authentication-success-handler-ref="adminAuthSuccessHandler" />
+		<security:logout invalidate-session="true"
+			success-handler-ref="adminLogoutSuccessHandler" />
+		<security:session-management
+			invalid-session-url="/timeout">
+			<security:concurrency-control
+				max-sessions="10" error-if-maximum-exceeded="true" />
+		</security:session-management>
+		<security:custom-filter ref="myFilter"
+			before="FILTER_SECURITY_INTERCEPTOR" />
+	</security:http>  
+
+    <!-- 指定一个自定义的authentication-manager :customUserDetailsService -->
+	<security:authentication-manager alias="myAuthenticationManager">
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
+			<!-- <security:password-encoder ref="passwordEncoder"/> -->
+			<security:password-encoder hash="md5">
+				<!-- <salt-source user-property="username" /> -->
+			</security:password-encoder>
+		</security:authentication-provider>
+    </security:authentication-manager>
+
+	<bean id="adminAuthSuccessHandler"
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<property name="targetUrlParameter" value="target-url" />
+        <property name="alwaysUseDefaultTargetUrl" value="true" />
+		<property name="defaultTargetUrl" value="/welcome" />
+	</bean>
+
+	<bean id="adminLogoutSuccessHandler"
+		class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler">
+		<property name="targetUrlParameter" value="target-url" />
+		<property name="defaultTargetUrl" value="/logout" />
+	</bean>
+
+    <!-- 对密码进行MD5编码 -->  
+    <bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>  
+
+    <!--   
+        通过 customUserDetailsService,Spring会自动的用户的访问级别.  
+        也可以理解成:以后我们和数据库操作就是通过customUserDetailsService来进行关联.  
+     -->  
+    <bean id="customUserDetailsService" class="com.minipark.parkserver.admin.common.security.CustomUserDetailsService"/>
+
+    <!-- 配置过滤器 -->  
+    <bean id="myFilter" class="com.minipark.parkserver.admin.common.security.MySecurityFilter">  
+        <!-- 用户拥有的权限 -->  
+        <property name="authenticationManager" ref="myAuthenticationManager" />  
+        <!-- 用户是否拥有所请求资源的权限 -->  
+        <property name="accessDecisionManager" ref="myAccessDecisionManager" />  
+        <!-- 资源与权限对应关系 -->  
+        <property name="securityMetadataSource" ref="mySecurityMetadataSource" />  
+    </bean>  
+
+
+    <bean id="myAccessDecisionManager" class="com.minipark.parkserver.admin.common.security.MyAccessDecisionManager"></bean>  
+    <bean id="mySecurityMetadataSource" class="com.minipark.parkserver.admin.common.security.MySecurityMetadataSource">
+        <constructor-arg name="roleService" ref="roleService"></constructor-arg>
+        <constructor-arg name="menuService" ref="menuService"></constructor-arg>
+    </bean>
+</beans>

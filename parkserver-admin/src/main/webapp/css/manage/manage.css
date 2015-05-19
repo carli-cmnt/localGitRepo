@@ -1,0 +1,90 @@
+input.errorField {
+	border: 1px solid red;
+}
+
+.pageEnd {
+	page-break-after: always;
+	margin-bottom: 50px;
+}
+
+.printTable, .printTable td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	word-wrap: break-word;
+	word-break: normal;
+}
+
+div.printAreaStyle {
+	width: 100%;
+}
+
+input.errorField {
+	border: 1px solid red;
+}
+
+select.errorField {
+	border: 1px solid red;
+}
+
+span.errorField {
+	color: #b94a48;
+	display: inline;
+	font-size: 10pt;
+}
+
+#myTab li {
+	height: 34px;
+	margin-bottom: 0px;
+}
+
+label.label-right {
+	text-align: right;
+}
+
+div.oneline {
+	display: inline-block;
+}
+
+div.highly {
+	height: 100%;
+	position: fixed;
+}
+
+.examBlock {
+	border: 1px solid black;
+	display: block;
+	padding: 10px;
+	width: 90%;
+	margin-bottom: 15px;
+}
+
+.optionBlock {
+	padding: 10px;
+	margin-left: 20px;
+	display: block;
+	width: 100%;
+}
+
+.examTitleLabel {
+	
+}
+
+.indexLabel {
+	margin-left: 50px;
+}
+
+.answerButton {
+	display: block;
+	margin: 21px;
+	margin-bottom: 9px;
+}
+
+.optionLabel {
+}
+.onscroll{
+	width:1600px;
+	height:800px;
+	border:solid 1px;
+	overflow-x:hidden;
+	overflow-y:scroll;
+}

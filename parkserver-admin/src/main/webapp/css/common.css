@@ -1,0 +1,192 @@
+.search-more{
+	cursor:pointer;
+}
+
+.search-lock{
+	height: 40px;
+}
+
+.search-hide{
+	height: 40px;
+	display: none;
+}
+
+.select2-hidden-accessible{
+	display: none;
+}
+.ml5{margin-left:5px;}
+.ml35{margin-left:35px;}
+.ml40{margin-left:40px;}
+.ml90{margin-left:90px;}
+.ml98{margin-left:98px;}
+.ml-90{margin-left:-90px;}
+.mb0{margin-bottom:0px;}
+.mt5{margin-top:5px;}
+.wd800{width:800px;}
+.wd510{width:510px;}
+.wd572{width:572px;}
+.wd450{width:450px;}
+.wd370{width:365px;}
+.wd400{width:400px;}
+.wd320{width:320px;}
+.wd345{width:345px;}
+.ht200{height:200px;}
+.ht28{height:28px;}
+.ht55{height:55px;}
+.ht80{height:80px;}
+.pl25{padding-left:25px;}
+.pl30{padding-left:30px;}
+.pl200{padding-left:200px;}
+.fr{float:right;}
+.fl{float:left;}
+.lh36{line-height:36px;}
+.nodisplay{display:none;}
+
+.selectorg{width:690px;align:center;display:none;padding-left:115px;padding-bottom:10px;}
+.orgsearchkey{margin-left: 100px;margin-top: 5px;}
+.orgsearchtitle{float: left; margin-left: 3px;margin-top: 3px;}
+.orgclose{margin-top: 5px;margin-right: 5px;}
+
+.nopadding {
+	padding: 0 !important;
+}
+.table th{
+	text-align:center;
+}
+.taleft{
+	text-align:left !important;
+}
+.tabcenter{
+	text-align:center !important;
+}
+.taright{
+	text-align:right !important;
+}
+.bg999{
+	background:#999999;
+}
+/*系统主页自定义样式*/
+.row-fluid{
+	border:1px solid #DDD;
+	height:auto;
+	background-color: #f5f5f5; 
+	margin:0px 0px 10px;
+}
+.row-fluid .div-p10{
+	padding-top:10px;
+	padding-buttom:10px;
+}
+.ullist{
+	margin-top:10px;
+	padding:0px;
+	list-style:outside none none;
+	text-align:center;
+}
+.ullist li{
+	display:inline-block;
+	margin: 3px 10px; 
+	text-align:center; 
+	width:25%;
+	padding:10px 0; 
+	position: relative;
+	background-color: #F6F6F6;
+	background-image: -webkit-gradient(linear, 0 0%, 0 100%, from(#F9F9F9), to(#EDEDED));
+	background-image: -webkit-linear-gradient(top, #F9F9F9 0%, #EDEDED 100%);
+    background-image: -moz-linear-gradient(top, #F9F9F9 0%, #EDEDED 100%);
+    background-image: -ms-linear-gradient(top, #F9F9F9 0%, #EDEDED 100%);
+    background-image: -o-linear-gradient(top, #F9F9F9 0%, #EDEDED 100%);
+    background-image: linear-gradient(top, #F9F9F9 0%, #EDEDED 100%);
+    border: 1px solid #d5d5d5;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 0 0 #FFFFFF inset, 0 1px 0 rgba(255,255,255,0.4);
+}
+.ullist li strong{
+	font-size:20px;
+}
+.a-btn{
+    width:80px;
+    height:80px;
+    -webkit-border-radius:40px;
+    -moz-border-radius:50%;
+    -o-border-radius:50%;
+    -ms-border-radius:50%;
+    border-radius:50%;
+    display:inline;
+    margin:10px;
+    float:left;
+    position:relative;
+    -webkit-box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #fafafa,  0px 0px 1px 8px rgba(204, 204, 204, 0.4), 0px 0px 0px 9px #dfdfdf;
+    -moz-box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #fafafa,  0px 0px 1px 8px rgba(204, 204, 204, 0.4), 0px 0px 0px 9px #dfdfdf;
+    box-shadow:0px 0px 5px 0px rgba(238, 238, 238, 0.5) inset, 0px -1px 5px 4px rgba(221, 221, 221, 0.2) inset, 0px 0px 0px 7px #fafafa,  0px 0px 1px 8px rgba(204, 204, 204, 0.4), 0px 0px 0px 9px #dfdfdf;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+}
+.a-btn span{
+    text-align:center;
+    vertical-align:middle;
+    font-size:27px;
+    color:blue;
+    text-shadow:0px 1px 1px #CDCDCD;
+    -webkit-transition:all 0.3s linear;
+    -moz-transition:all 0.3s linear;
+    -o-transition:all 0.3s linear;
+    transition:all 0.3s linear;
+    display: block;
+}
+.tab-hauto{
+	overflow:auto;
+	height:280px;
+}
+/*学分证明*/
+
+.tab-prove{
+	border : 1px;
+	margin-top:10px;
+	font-size:15px;
+	border:2px solid #000000; 
+	border-collapse: collapse;
+	width:780px;
+	cellspacing:0px; 
+	cellpadding:0px;
+}
+.tab-prove tr{
+	text-align : center;
+}
+.tab-prove-bottom{
+	border-top:0px;
+	margin-top:10px;
+	font-size:20px;
+	border-collapse: collapse;
+	width:780px;
+	cellspacing:0px; 
+	cellpadding:0px;
+}
+.tab-prove-bottom p{
+	text-indent: 2em;
+	font-size:20px;
+	text-align:left;
+}
+.div-abs{
+	width:100%;
+	position:absolute;
+	top:expression(document.body.clientHeight-this.style.pixelHeight+document.body.scrollTop);
+}
+.div-abs table{
+	border-top:0px;
+	font-size:20px;
+	border-collapse: collapse;
+	align:center;
+	width:780px;
+	cellspacing:0px; 
+	cellpadding:0px;
+}
+.div-abs table .td1{
+	text-align:center;
+	width:60%;
+}
+.div-abs table .td2{
+	text-align:left;
+	width:40%;
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<classPathEntry location="E:\mysql-connector-java-5.1.18-bin.jar" />
+	
+	<context id="context1" >
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+			<property name="suppressDate" value="true" />
+	    </commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/minipark?characterEncoding=UTF-8" userId="root" password="test123" />
+		<javaModelGenerator targetPackage="com.minipark.parkserver.core.user.entity" targetProject="parkserver-core" />
+		<sqlMapGenerator targetPackage="com.minipark.parkserver.core.user.dao.mapper" targetProject="parkserver-core" ></sqlMapGenerator>
+		<javaClientGenerator targetPackage="com.minipark.parkserver.core.user.dao" targetProject="parkserver-core" type="XMLMAPPER" />
+		
+		<table schema="general" tableName="au_role" domainObjectName="AuRole"    
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false"	selectByExampleQueryId="false" >
+			<property name="useActualColumnNames" value="false"/> 
+		</table>
+		
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans.xsd  
+            http://www.springframework.org/schema/context  
+            http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="loginUserMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory1" />
+		<property name="mapperInterface" value="com.minipark.parkserver.core.user.dao.LoginUserMapper" />
+	</bean>
+    <bean id="auMenuMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory1" />
+        <property name="mapperInterface" value="com.minipark.parkserver.core.system.dao.AuMenuMapper" />
+    </bean>
+    <bean id="auRoleMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory1" />
+        <property name="mapperInterface" value="com.minipark.parkserver.core.system.dao.AuRoleMapper" />
+    </bean>
+    <bean id="ddBaseDataTypeMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory1" />
+        <property name="mapperInterface" value="com.minipark.parkserver.core.system.dao.DdBaseDataItemMapper" />
+    </bean>
+    <bean id="ddBaseDataItemMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory1" />
+        <property name="mapperInterface" value="com.minipark.parkserver.core.system.dao.DdBaseDataTypeMapper" />
+    </bean>
+</beans>
